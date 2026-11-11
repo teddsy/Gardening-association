@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick order list | RGA Members</title>
+<meta name="description" content="RGA Members Group Seed Purchase – a compact Quick order list of 908 Kings Seeds lines. Tick to add to your basket. 25% off seeds. Orders close 31 January 2027.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top" class="ql-page" data-page="quicklist">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <h1><a href="index.html">Ruddington Gardeners’ Association</a></h1>
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="join.html">Join</a>
+    <a href="meetings.html">Meetings</a>
+    <a href="monthly.html">Monthly</a>
+    <a href="tips.html">Tips</a>
+    <a href="knowledge-hub.html">Knowledge Hub</a>
+    <a href="local-links.html">Local Links</a>
+    <a href="members.html" class="active" aria-current="page">Members</a>
+  </nav>
+  <a class="basket-link" href="seed-basket.html">Basket (<span data-basket-count>0</span>)</a>
+</header>
+<main id="main">
+  <p class="members-demo-notice" role="note"><strong>Members Area: this area will normally be password protected for obvious reasons. It is open here for demonstration only.</strong></p>
+  <p class="crumbs"><a href="members.html">Members</a> › <a href="seed-order.html">Seed purchase</a> › <span aria-current="page">Quick order list</span></p>
+  <section class="produce-host content-box">
+    <img class="produce-deco produce-deco--tr produce-deco--sm" src="img/produce/pea.webp" width="178" height="215" alt="" aria-hidden="true" decoding="async">
+    <p class="kicker">Members Group Seed Purchase · Demo</p>
+    <h2>Quick order list</h2>
+    <p>A simple scrolling list of all 908 seed and plant lines – type, variety, packet size and prices only, with no descriptions. Tick a box to add one of that item to your basket (the same basket as the seed shop). Untick to take it out. Totals stay at the bottom of the screen. Seeds are 25% off for members; soft fruit plants are charged at list price.</p>
+    <p><a href="seed-shop.html">Prefer photos and details? Use the seed shop</a> · <a href="seed-basket.html">View basket</a></p>
+  </section>
+  <form class="ql-filters" id="ql-filters" role="search" aria-label="Filter the quick order list">
+    <p><label for="ql-q">Search</label><br><input id="ql-q" name="q" type="search" placeholder="e.g. tomato, basil, 40 Seeds"></p>
+    <p><label for="ql-cat">Type</label><br>
+      <select id="ql-cat" name="cat">
+        <option value="">All types</option>
+        <option value="veg">Vegetables</option>
+        <option value="herb">Herbs</option>
+        <option value="fruit">Fruit &amp; plants</option>
+      </select>
+    </p>
+    <p class="meta" id="ql-result" aria-live="polite"></p>
+  </form>
+  <div class="ql-wrap" id="ql-list" role="table" aria-label="Quick order list"></div>
+  <p class="ql-endtop"><a class="ql-top" href="#top">&#8593; Back to top</a></p>
+  <div class="empty-state" id="ql-empty" hidden><h3>No lines match</h3><p>Try a different word or choose another type.</p></div>
+</main>
+<footer><p>Ruddington Gardeners’ Association · Members Group Seed Purchase organised by Mike Davey · Kings Seeds prices as listed 5 Nov 2026 · Orders close 31 January 2027 · Demo – no payment taken</p></footer>
+<div class="ql-bar" role="region" aria-label="Basket totals">
+  <div class="ql-bar-totals" aria-live="polite">
+    <span><strong id="ql-count">0</strong> items</span>
+    <span>Regular <strong id="ql-reg">£0.00</strong></span>
+    <span>Members <strong id="ql-mem">£0.00</strong></span>
+    <span>You save <strong id="ql-save">£0.00</strong></span>
+  </div>
+  <div class="ql-bar-acts"><a class="ql-top" href="#top" aria-label="Back to top of list" title="Back to top">&#8593; Top</a><a class="btn" id="ql-buy" href="seed-basket.html">Buy now</a></div>
+</div>
+<script src="kings-seeds-data.js"></script>
+<script src="shop-core.js"></script>
+<script src="seed-quicklist.js"></script>
+<script src="members-gate.js"></script>
+</body>
+</html>

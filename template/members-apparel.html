@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Members Apparel Order | Your Gardening Association (Demo)</title>
+<meta name="description" content="Example members apparel order – tees, hoodies, caps and tote bags. Basket and print summary only; no payment.">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Apparel page extras on top of Sunset / style.css */
+.demo{text-align:center;padding:.55rem 1rem;font-weight:700;font-size:1rem}
+.back-members{margin:.6rem 4% 0;font-size:1rem}
+.back-members a{font-weight:700}
+.hero{position:relative;min-height:auto;padding:2.2rem 5%;background:url('rga-hero.jpg') center/cover no-repeat;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
+.hero::after{content:"";position:absolute;inset:0;border-radius:18px;background:linear-gradient(180deg,rgba(53,28,77,.45),rgba(30,15,10,.7))}
+.hero{border-radius:18px;overflow:hidden}.hero h2{color:#fff}
+.hero > *{position:relative;z-index:1}
+.hero h2{font-size:clamp(1.7rem,4vw,2.5rem);margin-bottom:.4rem}
+.hero p{font-size:1.1rem;max-width:48rem;margin:0 auto}
+main{max-width:1180px;width:96%;margin:1.2rem auto;padding:0 0 2.5rem}
+.box{padding:1.25rem 1.4rem;margin-bottom:1.1rem}
+.banner ul{margin:.5rem 0 0 1.2rem}.banner li{margin:.3rem 0}
+.sticky-bar{position:static;padding:.7rem 1rem;margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{border-radius:999px;padding:.4rem .9rem;font-size:.95rem;font-weight:700;cursor:pointer;background:rgba(255,255,255,.85);border:1px solid var(--line,#E7A9A0);color:var(--head,#7A2E3A)}
+.chip[aria-pressed="true"],.chip.active{background:var(--rasp,#B23A48)!important;color:#fff!important;border-color:var(--rasp,#B23A48)!important}
+.chip:hover{background:var(--rasp,#B23A48);color:#fff}
+.cartbtn{border:0;border-radius:40px;padding:.55rem 1.15rem;font-weight:700;cursor:pointer;font-size:1.05rem}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.1rem;margin-top:.4rem}
+.pcard{display:flex;flex-direction:column;background:var(--cardbg,#FFFBF5);overflow:hidden;cursor:pointer;text-align:left;border:0;padding:0;font:inherit;color:inherit;width:100%}
+.pcard img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f3e4df}
+.pcard .body{padding:1rem 1.1rem 1.15rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.pcard h3{font-size:1.12rem;margin:0;line-height:1.25;color:var(--head,#7A2E3A)}
+.pcard .print{font-size:.88rem;color:var(--muted,#5A4448)}
+.pcard .price{font-weight:800;font-size:1.15rem;color:var(--sage,#3F6B3A);margin-top:auto}
+.pcard .acts{margin-top:.5rem}
+.meta{font-size:.95rem;color:var(--muted,#5A4448)}
+#cart{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:#FFFBF5;box-shadow:-4px 0 24px rgba(122,46,58,.25);transform:translateX(100%);transition:.25s;z-index:60;display:flex;flex-direction:column;padding:1.2rem;overflow-y:auto;border-left:2px solid var(--line,#E7A9A0)}
+#cart.open{transform:none}
+#cartItems{flex:1;overflow:auto;margin:.8rem 0}
+.ci{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start;border-bottom:1px solid #F0CFC6;padding:.55rem 0}
+.ci .meta{font-size:.88rem}
+.totals{background:#FFF1E6;border:1px solid var(--gold-s,#E9C46A);border-radius:14px;padding:.7rem .85rem;margin:.4rem 0 .7rem}
+.totals .row{display:flex;justify-content:space-between;gap:.5rem;margin:.2rem 0}
+.totals .pay{font-size:1.15rem;font-weight:800;color:var(--head,#7A2E3A);margin-top:.25rem;padding-top:.35rem;border-top:1px dashed #E7A9A0}
+dialog{margin:auto;max-height:90vh;overflow:auto;max-width:720px;width:94%;padding:1.5rem;font-size:1.08rem;overscroll-behavior:contain}
+dialog::backdrop{background:rgba(92,40,50,.5)}
+dialog h2{margin-bottom:.35rem;font-size:1.5rem;padding-right:2.5rem}
+dialog .close{float:right}
+.det-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+@media(min-width:640px){.det-grid{grid-template-columns:220px 1fr}}
+.det-grid img{width:100%;border-radius:16px;aspect-ratio:1/1;object-fit:cover;border:1px solid #F6D3C9}
+.opts{display:grid;gap:.7rem;margin:1rem 0}
+.opts label{font-weight:700;display:block;margin-bottom:.25rem}
+.opts select{width:100%;max-width:16rem;padding:.65rem .75rem;font:inherit;border-radius:12px}
+.botclose{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:1rem;padding-top:.7rem;border-top:1px solid #F0CFC6}
+.qty{display:inline-flex;align-items:center;gap:.28rem}
+.qty button{width:36px;height:36px;border-radius:50%;border:2px solid var(--head,#7A2E3A);background:#fff;color:var(--head,#7A2E3A);font-size:1.1rem;font-weight:700;cursor:pointer}
+.qty span{min-width:1.3rem;text-align:center;font-weight:700}
+.empty{text-align:center;color:#5A4448;padding:1.2rem}
+.sr{position:absolute;left:-9999px}
+#cart .close{width:44px;height:44px;border-radius:50%;border:2px solid #7A2E3A;background:#fff;color:#7A2E3A;font-size:1.25rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+#cart .close:hover{background:#7A2E3A;color:#fff}
+.demo-note{background:rgba(255,248,220,.95);border:1px solid var(--gold-s,#E9C46A);border-radius:14px;padding:.85rem 1rem;margin:.6rem 0}
+@media(max-width:700px){nav{display:flex}.cartbtn{width:100%;margin-top:.35rem}}
+@media(prefers-reduced-motion:reduce){#cart{transition:none}.pcard:hover{transform:none}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="demo" role="note">DEMO – Members apparel order. Demo photos and prices. No payment is taken; nothing is submitted online.</div>
+<header class="site-header">
+  <h1><a href="index.html">Your Gardening Association</a></h1>
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="join.html">Join</a>
+    <a href="meetings.html">Meetings</a>
+    <a href="monthly.html">Monthly</a>
+    <a href="tips.html">Tips</a>
+    <a href="knowledge-hub.html">Knowledge Hub</a>
+    <a href="local-links.html">Local Links</a>
+    <a href="members.html" class="active" aria-current="page">Members</a>
+  </nav>
+  <button type="button" class="cartbtn" id="openCart" aria-controls="cart">🛒 Basket (<span id="cnt">0</span>) · £<span id="tot">0.00</span></button>
+</header>
+<p class="back-members"><a href="members.html">&larr; Back to Members</a></p>
+
+<section class="hero">
+  <div>
+    <h2>Members Apparel Order</h2>
+    <p>Example tees, hoodies, caps and tote bags. The sample photos are placeholders — swap them for your own prints. Browse, pick size and colour, build a basket, then print a summary for the organiser.</p>
+  </div>
+</section>
+<div class="box profits" role="note" style="text-align:center;font-weight:700;color:#7A2E3A;font-size:1.1rem">💚 All profits go to supporting Your Gardening Association.</div>
+
+
+<main id="main">
+  <p class="members-demo-notice" role="note"><strong>Members Area: this area will normally be password protected for obvious reasons. It is open here for demonstration only.</strong></p>
+  <div class="produce-host box banner" role="region" aria-label="Apparel order notice">
+<img class="produce-deco produce-deco--tr" src="img/produce/pea.webp" width="178" height="215" alt="" aria-hidden="true" decoding="async">
+    <h3>👕 Club apparel (demo)</h3>
+    <div class="demo-note"><strong>Demo – not real ordering.</strong> Prices and photos are for this prototype only. There is <strong>no shop or payment link</strong>. Print or copy a summary for whoever runs the real order later.</div>
+    <ul>
+      <li>Choose a category: Tees, Hoodies, Caps, Tote bags, Mugs, Aprons or Gloves &amp; beanies.</li>
+      <li>Open a product for the description, size and colour, then Add to basket.</li>
+      <li>Print or copy your summary when you are ready — nothing is sent online.</li>
+    </ul>
+  </div>
+
+  <details class="help-panel box" id="howTo" style="padding:0">
+    <summary>How to use this page</summary>
+    <div class="help-body">
+      <ol>
+        <li><strong>Pick a category</strong> – tap Tees, Hoodies, Caps, Tote bags, Mugs, Aprons or Gloves &amp; beanies (or All).</li>
+        <li><strong>Open a product</strong> – read the description and choose size and colour.</li>
+        <li><strong>Add to basket</strong> – mix items if you like (e.g. a tee and a tote).</li>
+        <li><strong>Print or copy</strong> – use the basket buttons for a summary the organiser can keep.</li>
+      </ol>
+      <p class="meta">Demo photos were generated for this prototype. Real print placement may differ.</p>
+    </div>
+  </details>
+
+  <div class="box sticky-bar" id="tools">
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+    <p class="meta" id="count" aria-live="polite" style="margin-top:.55rem"></p>
+  </div>
+
+  <div class="agrid" id="grid" aria-live="polite"></div>
+</main>
+
+<aside id="cart" aria-label="Basket" aria-hidden="true" inert>
+  <button type="button" class="close" id="closeCart" aria-label="Close basket">×</button>
+  <button type="button" class="backbtn" id="cartBack">← Back to apparel</button>
+  <h2 style="color:var(--head,#7A2E3A);margin:.5rem 0">Your basket</h2>
+  <p class="meta">Demo – nothing is sent online. No payment on this page.</p>
+  <div id="cartItems"></div>
+  <div class="totals" id="cartTotals" hidden>
+    <div class="row pay"><span>Basket total</span><span>£<span id="tot2">0.00</span></span></div>
+  </div>
+  <div class="no-print" style="margin:.6rem 0">
+    <label for="member-name">Your name for the printed summary</label><br>
+    <input id="member-name" type="text" autocomplete="name" style="max-width:20rem;width:100%;padding:.65rem .75rem;font:inherit;border-radius:12px;border:1px solid #E7A9A0;margin-top:.25rem">
+  </div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button type="button" class="btn sec" id="clear">Empty</button>
+    <button type="button" class="btn" id="printSum">Print summary</button>
+    <button type="button" class="btn sec" id="copySum">Copy summary</button>
+  </div>
+  <div class="botclose">
+    <button type="button" class="backbtn" id="cartBack2">← Back to apparel</button>
+    <button type="button" class="btn sec" id="closeCart2">Close ✕</button>
+  </div>
+</aside>
+
+<dialog id="det" aria-label="Product details"></dialog>
+<dialog id="conf" aria-label="Order summary"></dialog>
+
+<footer>
+  <p>Your Gardening Association · Example apparel · no payment taken</p>
+  <p><a href="https://github.com/teddsy/Gardening-association">Made with the free Gardening Association site template</a></p>
+</footer>
+
+<script src="apparel-data.js"></script>
+<script src="members-gate.js"></script>
+<script>
+(function(){
+  const DATA = window.RGA_APPAREL;
+  if(!DATA || !DATA.products){
+    document.getElementById('grid').innerHTML = '<p class="box empty">Apparel data failed to load.</p>';
+    return;
+  }
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const money = n => (Math.round(n * 100) / 100).toFixed(2);
+  const KEY = 'rgaApparelBasket';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e){ return []; } };
+  let basket = Array.isArray(load()) ? load() : [];
+  const save = () => localStorage.setItem(KEY, JSON.stringify(basket));
+  const byId = Object.fromEntries(DATA.products.map(p => [p.id, p]));
+  let filter = 'all';
+
+  const printLabel = id => {
+    const p = DATA.prints.find(x => x.id === id);
+    return p ? p.label : id;
+  };
+  const catLabel = id => {
+    const c = DATA.categories.find(x => x.id === id);
+    return c ? c.label : id;
+  };
+
+  function renderChips(){
+    const chips = $('#chips');
+    const all = [{id:'all', label:'All'}].concat(DATA.categories);
+    chips.innerHTML = all.map(c =>
+      `<button type="button" class="chip${filter===c.id?' active':''}" data-cat="${esc(c.id)}" aria-pressed="${filter===c.id?'true':'false'}">${esc(c.label)}</button>`
+    ).join('');
+  }
+
+  function filtered(){
+    return DATA.products.filter(p => filter === 'all' || p.category === filter);
+  }
+
+  function renderGrid(){
+    const list = filtered();
+    $('#count').textContent = list.length + ' item' + (list.length===1?'':'s') + (filter==='all'?'':' in ' + catLabel(filter));
+    $('#grid').innerHTML = list.map(p => `
+      <button type="button" class="pcard card" data-open="${esc(p.id)}" aria-label="${esc(p.name)}, £${money(p.price)}">
+        <img src="${esc(p.image)}" alt="" width="560" height="560" loading="eager">
+        <div class="body">
+          <h3>${esc(p.name)}</h3>
+          <p class="print">${esc(printLabel(p.print))} · ${esc(catLabel(p.category))}</p>
+          <p class="price">£${money(p.price)}</p>
+          <div class="acts"><span class="btn" aria-hidden="true">View &amp; add</span></div>
+        </div>
+      </button>`).join('') || '<p class="box empty">No items in this category.</p>';
+  }
+
+  function lineKey(id, size, colour){
+    return id + '|' + size + '|' + colour;
+  }
+
+  function basketTotals(){
+    let n = 0, total = 0;
+    basket.forEach(line => {
+      n += line.qty;
+      total += line.qty * line.price;
+    });
+    return { n, total: Math.round(total * 100) / 100 };
+  }
+
+  function renderBasket(){
+    const t = basketTotals();
+    $('#cnt').textContent = String(t.n);
+    $('#tot').textContent = money(t.total);
+    $('#tot2').textContent = money(t.total);
+    $('#cartTotals').hidden = !t.n;
+    if(!basket.length){
+      $('#cartItems').innerHTML = '<p class="empty">Your basket is empty.</p>';
+      return;
+    }
+    $('#cartItems').innerHTML = basket.map((line, i) => `
+      <div class="ci" data-i="${i}">
+        <div>
+          <strong>${esc(line.name)}</strong>
+          <div class="meta">${esc(line.size)} · ${esc(line.colour)} · £${money(line.price)} each</div>
+          <div class="qty" style="margin-top:.35rem">
+            <button type="button" data-act="-1" aria-label="Decrease quantity">−</button>
+            <span>${line.qty}</span>
+            <button type="button" data-act="1" aria-label="Increase quantity">+</button>
+            <button type="button" class="btn linkish" data-act="x" style="margin-left:.4rem">Remove</button>
+          </div>
+        </div>
+        <div><strong>£${money(line.qty * line.price)}</strong></div>
+      </div>`).join('');
+  }
+
+  function openCart(){
+    const cart = $('#cart');
+    cart.classList.add('open');
+    cart.setAttribute('aria-hidden','false');
+    cart.removeAttribute('inert');
+    renderBasket();
+  }
+  function closeCart(){
+    const cart = $('#cart');
+    cart.classList.remove('open');
+    cart.setAttribute('aria-hidden','true');
+    cart.setAttribute('inert','');
+  }
+
+  function openDetail(id){
+    const p = byId[id];
+    if(!p) return;
+    const det = $('#det');
+    const sizeOpts = p.sizes.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    const colOpts = p.colours.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    det.innerHTML = `
+      <button type="button" class="close dlgclose" aria-label="Close">×</button>
+      <h2 id="detTitle">${esc(p.name)}</h2>
+      <div class="det-grid">
+        <img src="${esc(p.image)}" alt="Demo photo of ${esc(p.name)}">
+        <div>
+          <p class="meta"><strong>Print:</strong> ${esc(printLabel(p.print))}</p>
+          <p class="meta"><strong>Category:</strong> ${esc(catLabel(p.category))}</p>
+          <p style="margin:.7rem 0">${esc(p.description)}</p>
+          <p class="price" style="font-weight:800;font-size:1.25rem;color:var(--sage,#3F6B3A)">£${money(p.price)}</p>
+          <div class="opts">
+            <div>
+              <label for="detSize">Size</label>
+              <select id="detSize">${sizeOpts}</select>
+            </div>
+            <div>
+              <label for="detColour">Colour</label>
+              <select id="detColour">${colOpts}</select>
+            </div>
+          </div>
+          <p class="meta">Demo photo – not a real shop listing.</p>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem">
+            <button type="button" class="btn" id="detAdd">Add to basket</button>
+            <button type="button" class="btn sec dlgclose">Close ✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="botclose">
+        <button type="button" class="backbtn dlgback">← Back to apparel</button>
+        <button type="button" class="btn sec dlgclose">Close ✕</button>
+      </div>`;
+    det.showModal();
+    $('#detAdd').onclick = function(){
+      const size = $('#detSize').value;
+      const colour = $('#detColour').value;
+      const key = lineKey(p.id, size, colour);
+      const existing = basket.find(l => lineKey(l.id, l.size, l.colour) === key);
+      if(existing) existing.qty += 1;
+      else basket.push({ id: p.id, name: p.name, size, colour, price: p.price, qty: 1 });
+      save();
+      renderBasket();
+      det.close();
+      openCart();
+    };
+  }
+
+  function memberName(){
+    const typed = (($('#member-name') && $('#member-name').value) || '').trim();
+    if (typed) return typed;
+    const session = (window.RGA_MEMBERS && window.RGA_MEMBERS.getSession && window.RGA_MEMBERS.getSession()) || null;
+    return (session && session.name) ? session.name : '';
+  }
+
+  function summaryText(){
+    const t = basketTotals();
+    const name = memberName();
+    const lines = [
+      'Your Gardening Association – Members apparel order (DEMO)',
+      'Not a real order – no payment taken.',
+      name ? ('Member: ' + name) : 'Member: (please add your name)',
+      'Date: ' + new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }) + ' (Europe/London)',
+      ''
+    ];
+    if(!basket.length){
+      lines.push('(Basket empty)');
+    } else {
+      basket.forEach(l => {
+        lines.push('- ' + l.name + ' | ' + l.size + ' | ' + l.colour + ' | qty ' + l.qty + ' | £' + money(l.qty * l.price));
+      });
+      lines.push('');
+      lines.push('Total items: ' + t.n);
+      lines.push('Basket total: £' + money(t.total));
+    }
+    lines.push('');
+    lines.push('Print this summary for the apparel organiser. Demo only.');
+    return lines.join('\n');
+  }
+
+  function showSummary(printAfter){
+    const conf = $('#conf');
+    const text = summaryText();
+    conf.innerHTML = `
+      <button type="button" class="close dlgclose" aria-label="Close">×</button>
+      <h2>Order summary (demo)</h2><p><strong>All profits go to supporting Your Gardening Association.</strong></p>
+      <p class="demo-note"><strong>Demo – not real ordering.</strong> No payment and no shop link.</p>
+      <pre style="white-space:pre-wrap;font:inherit;background:#fff;border:1px solid #F0CFC6;border-radius:12px;padding:1rem;max-height:50vh;overflow:auto">${esc(text)}</pre>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem">
+        <button type="button" class="btn" id="doPrint">Print</button>
+        <button type="button" class="btn sec" id="doCopy">Copy text</button>
+        <button type="button" class="btn sec dlgclose">Close ✕</button>
+      </div>
+      <div class="botclose">
+        <button type="button" class="backbtn dlgback">← Back</button>
+        <button type="button" class="btn sec dlgclose">Close ✕</button>
+      </div>`;
+    conf.showModal();
+    $('#doPrint').onclick = () => window.print();
+    $('#doCopy').onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        $('#doCopy').textContent = 'Copied';
+        setTimeout(() => { if($('#doCopy')) $('#doCopy').textContent = 'Copy text'; }, 1500);
+      } catch(e){
+        prompt('Copy this summary:', text);
+      }
+    };
+    if(printAfter) setTimeout(() => window.print(), 300);
+  }
+
+  // Events
+  renderChips();
+  renderGrid();
+  renderBasket();
+  (function prefillName(){
+    const n = $('#member-name');
+    if (!n || n.value.trim()) return;
+    const session = (window.RGA_MEMBERS && window.RGA_MEMBERS.getSession && window.RGA_MEMBERS.getSession()) || null;
+    if (session && session.name) n.value = session.name;
+  })();
+
+  $('#chips').addEventListener('click', e => {
+    const b = e.target.closest('[data-cat]');
+    if(!b) return;
+    filter = b.getAttribute('data-cat');
+    renderChips();
+    renderGrid();
+  });
+
+  $('#grid').addEventListener('click', e => {
+    const b = e.target.closest('[data-open]');
+    if(!b) return;
+    openDetail(b.getAttribute('data-open'));
+  });
+
+  $('#openCart').addEventListener('click', openCart);
+  $('#closeCart').addEventListener('click', closeCart);
+  $('#closeCart2').addEventListener('click', closeCart);
+  $('#cartBack').addEventListener('click', closeCart);
+  $('#cartBack2').addEventListener('click', closeCart);
+
+  $('#cartItems').addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]');
+    if(!btn) return;
+    const row = btn.closest('[data-i]');
+    if(!row) return;
+    const i = +row.getAttribute('data-i');
+    const act = btn.getAttribute('data-act');
+    if(!basket[i]) return;
+    if(act === 'x') basket.splice(i, 1);
+    else {
+      basket[i].qty += +act;
+      if(basket[i].qty < 1) basket.splice(i, 1);
+    }
+    save();
+    renderBasket();
+  });
+
+  $('#clear').addEventListener('click', () => {
+    if(!basket.length) return;
+    if(confirm('Empty the apparel basket?')){
+      basket = [];
+      save();
+      renderBasket();
+    }
+  });
+  $('#printSum').addEventListener('click', () => showSummary(true));
+  $('#copySum').addEventListener('click', () => showSummary(false));
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.dlgclose, .dlgback');
+    if(!b) return;
+    const d = b.closest('dialog');
+    if(d) d.close();
+  });
+
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      if($('#cart').classList.contains('open')) closeCart();
+    }
+  });
+
+  // Expose for smoke tests
+  window.__RGA_APPAREL_TEST = {
+    add: function(id, size, colour, qty){
+      const p = byId[id]; if(!p) throw new Error('missing '+id);
+      size = size || p.sizes[0]; colour = colour || p.colours[0]; qty = qty || 1;
+      const key = lineKey(id, size, colour);
+      const existing = basket.find(l => lineKey(l.id, l.size, l.colour) === key);
+      if(existing) existing.qty += qty;
+      else basket.push({ id, name: p.name, size, colour, price: p.price, qty });
+      save(); renderBasket();
+      return basketTotals();
+    },
+    totals: basketTotals,
+    basket: () => basket.slice(),
+    clear: () => { basket = []; save(); renderBasket(); }
+  };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seed basket | RGA Members</title>
+<meta name="description" content="RGA Members Group Seed Purchase – Kings Seeds catalogue demo with 25% members discount on seeds. Orders close 31 January 2027.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="basket">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <h1><a href="index.html">Ruddington Gardeners’ Association</a></h1>
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="join.html">Join</a>
+    <a href="meetings.html">Meetings</a>
+    <a href="monthly.html">Monthly</a>
+    <a href="tips.html">Tips</a>
+    <a href="knowledge-hub.html">Knowledge Hub</a>
+    <a href="local-links.html">Local Links</a>
+    <a href="members.html" class="active" aria-current="page">Members</a>
+  </nav>
+  <a class="basket-link" href="seed-basket.html">Basket (<span data-basket-count>0</span>)</a>
+</header>
+<main id="main">
+  <p class="members-demo-notice" role="note"><strong>Members Area: this area will normally be password protected for obvious reasons. It is open here for demonstration only.</strong></p>
+<p class="crumbs"><a href="members.html">Members</a> › <a href="seed-order.html">Seed purchase</a> › <span aria-current="page">Basket</span></p>
+<section class="produce-host content-box">
+<img class="produce-deco produce-deco--tr" src="img/produce/squash.webp" width="194" height="204" alt="" aria-hidden="true" decoding="async">
+  <h2>Your seed basket</h2>
+  <div class="print-only"><p><strong>RGA Members Group Seed Purchase – order summary for Mike Davey</strong><br>Member: <span id="print-name"></span> · Printed <span id="print-date"></span> · Orders close 31 January 2027</p></div>
+  <p class="no-print"><a id="continue" href="seed-shop.html">← Continue shopping</a></p>
+  <div id="basket"></div>
+  <div id="summary" hidden>
+    <div class="totals" aria-live="polite">
+      <div class="row"><span>Items</span><span id="t-count">0</span></div>
+      <div class="row"><span>Regular total</span><span id="t-reg">£0.00</span></div>
+      <div class="row"><span>You save</span><span id="t-save">£0.00</span></div>
+      <div class="row pay"><span>Members total</span><span id="t-mem">£0.00</span></div>
+    </div>
+    <div class="no-print" style="margin-top:1rem">
+      <label for="member-name">Your name for the printed summary</label><br><input id="member-name" type="text" autocomplete="name" style="max-width:20rem;width:100%">
+      <p style="margin-top:.8rem"><button class="btn" type="button" id="print">Print summary for Mike</button> <button class="btn ghost" type="button" id="empty-basket">Empty basket</button></p>
+    </div>
+    <p class="meta">Demo – no payment is taken and nothing is sent online. Hand the printed summary to Mike Davey by 31 January 2027. Seeds are 25% off for members (nearest penny); soft fruit plants are charged at Kings Seeds list price.</p>
+  </div>
+</section>
+</main>
+<footer><p>Ruddington Gardeners’ Association · Members Group Seed Purchase organised by Mike Davey · Kings Seeds prices as listed 5 Nov 2026 · Orders close 31 January 2027 · Demo – no payment taken</p></footer>
+<script src="kings-seeds-data.js"></script>
+<script src="shop-core.js"></script>
+<script src="shop-ui.js"></script>
+<script src="members-gate.js"></script>
+</body>
+</html>

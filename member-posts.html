@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Member Posts – Ruddington Gardeners' Association (Demo)</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.demo{background:#fff3cd;color:#664d03;text-align:center;padding:.5rem 1rem;font-weight:600;border-bottom:2px solid #e0c060}
+.box{background:rgba(255,255,255,.95);border-radius:14px;padding:1.4rem;margin-bottom:1.4rem;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+label{display:block;font-weight:600;margin:.6rem 0 .2rem}
+input,select,textarea{width:100%;padding:.6rem .8rem;border:1px solid #c9d6c5;border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:110px}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:30px;padding:.55rem 1.3rem;font-weight:600;cursor:pointer;font-size:1rem}
+.btn.sec{background:var(--green-light)}.btn.ghost{background:#fff;color:var(--green);border:1px solid var(--green-light)}.btn.danger{background:#a33}
+.btn:hover{filter:brightness(1.08)}
+.row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}.row>*{flex:1;min-width:150px}
+.userbar{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.pill{display:inline-block;padding:.1rem .65rem;border-radius:20px;font-size:.8rem;font-weight:600;background:#e4efe1;color:var(--green)}
+.pill.sample{background:#fff3cd;color:#664d03}.pill.pending{background:#fde2c8;color:var(--clay)}.pill.hidden{background:#eee;color:#666}
+.post{border-left:5px solid var(--green-light)}.post.pending{border-color:var(--accent)}.post.hiddenp{border-color:#999;opacity:.75}
+.post h4{font-size:1.2rem;color:var(--green)}.meta{font-size:.85rem;color:#666;margin:.2rem 0 .6rem}
+.post img{max-width:100%;border-radius:10px;margin:.6rem 0;display:block}
+.actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+.actions button{font-size:.9rem;padding:.35rem .9rem}
+.comments{margin-top:.6rem;background:var(--cream);border-radius:10px;padding:.6rem .8rem;font-size:.92rem}
+.comments p{margin:.25rem 0}
+#preview{max-width:220px;border-radius:8px;margin-top:.5rem;display:none}
+.tabs{display:flex;gap:.5rem;margin-bottom:1rem}.tabs button.active{background:var(--green)}
+.hidden{display:none!important}
+details{margin-top:.5rem}summary{cursor:pointer;font-weight:600;color:var(--green)}
+pre{background:#1e2a1c;color:#d9f2d0;padding:1rem;border-radius:8px;overflow:auto;font-size:.8rem;margin-top:.6rem}
+.toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:.6rem 1.2rem;border-radius:30px;opacity:0;transition:.3s;pointer-events:none}.toast.show{opacity:1}
+</style>
+
+</head><body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="demo">DEMO MODE – sample data only. Accounts and posts are stored in this browser (localStorage); nothing is sent anywhere.</div>
+<header class="site-header"><h1><a href="index.html">Ruddington Gardeners’ Association</a></h1>
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="join.html">Join</a>
+    <a href="meetings.html">Meetings</a>
+    <a href="monthly.html">Monthly</a>
+    <a href="tips.html">Tips</a>
+    <a href="knowledge-hub.html">Knowledge Hub</a>
+    <a href="local-links.html">Local Links</a>
+    <a href="members.html" class="active" aria-current="page">Members</a>
+  </nav></header>
+<p class="back-members" style="margin:.6rem 1rem 0;font-size:.95rem"><a href="members.html">&larr; Back to Members</a></p>
+
+<section class="hero produce-host"><img class="produce-deco produce-deco--tr" src="img/produce/strawberries.webp" width="172" height="194" alt="" aria-hidden="true" decoding="async"><h2>Member Posts</h2><p>Share harvests, questions and tips from Ruddington's plots and gardens</p></section>
+<main id="main">
+  <p class="members-demo-notice" role="note"><strong>Members Area: this area will normally be password protected for obvious reasons. It is open here for demonstration only.</strong></p>
+<!-- LOGIN -->
+<section class="box" id="authBox">
+  <h3>Sign in or join (demo)</h3>
+  <p>Demo mode: enter any name and email. No password is checked and nothing leaves your browser.</p>
+  <div class="row"><div><label for="aName">Display name</label><input id="aName" placeholder="e.g. Margaret, Plot 14"></div>
+  <div><label for="aEmail">Email</label><input id="aEmail" type="email" placeholder="you@example.com"></div></div>
+  <div class="row" style="margin-top:1rem"><button class="btn" id="signIn">Sign in / Sign up</button>
+  <label style="font-weight:500;display:flex;gap:.4rem;align-items:center;margin:0"><input type="checkbox" id="asAdmin" style="width:auto"> Sign in as admin (demo)</label></div>
+</section>
+<!-- APP -->
+<div id="app" class="hidden">
+<section class="box userbar"><div>Signed in as <strong id="whoName"></strong> <span id="whoRole" class="pill"></span></div>
+<div class="row" style="flex:0 0 auto"><button class="btn ghost" id="resetDemo">Reset demo data</button><button class="btn sec" id="signOut">Sign out</button></div></section>
+<div class="tabs"><button class="btn sec active" data-tab="feed">Feed</button><button class="btn sec" data-tab="new">New post</button><button class="btn sec" data-tab="mod" id="modTab">Moderate <span id="pendCount"></span></button></div>
+
+<section class="box tab" id="tab-new">
+  <h3>Write a post</h3>
+  <form id="postForm">
+  <label for="pTitle">Title</label><input id="pTitle" required maxlength="120">
+  <label for="pCat">Category</label><select id="pCat"></select>
+  <label for="pBody">Your post</label><textarea id="pBody" required></textarea>
+  <label for="pPhoto">Photo (optional, resized in your browser to 1000px max)</label><input id="pPhoto" type="file" accept="image/*">
+  <img id="preview" alt="Photo preview">
+  <p style="font-size:.85rem;color:#666;margin-top:.5rem">New posts go to the committee for approval before they appear in the feed.</p>
+  <div class="row" style="margin-top:.8rem"><button class="btn" type="submit">Submit post</button></div>
+  </form>
+</section>
+
+<section class="tab" id="tab-feed">
+  <div class="box row"><div><label for="q">Search</label><input id="q" placeholder="Search posts, e.g. clay, slugs, tomatoes"></div>
+  <div><label for="fCat">Category</label><select id="fCat"><option value="">All categories</option></select></div></div>
+  <div id="feed"></div>
+</section>
+
+<section class="tab" id="tab-mod">
+  <div class="box"><h3>Moderation queue</h3><p>Approve, hide or delete posts. Pending posts are listed first.</p></div>
+  <div id="modList"></div>
+</section>
+</div>
+
+<section class="box"><details><summary>Supabase setup (for going live)</summary>
+<p style="margin-top:.5rem">This demo keeps its data behind a small <code>DataAdapter</code> object. To go live, create a Supabase project, run <code>supabase-setup.sql</code> (tables <code>profiles</code>, <code>posts</code>, <code>comments</code>, RLS policies and a <code>post-photos</code> storage bucket), fill in the config block in this file's script and swap <code>LocalAdapter</code> for <code>SupabaseAdapter</code>. Only the public anon key belongs in the page – never the service-role key.</p>
+<pre>// const SUPABASE_CONFIG = { url: 'https://YOUR-PROJECT.supabase.co', anonKey: 'YOUR-ANON-KEY' };
+// const db = SupabaseAdapter(supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey));</pre>
+</details></section>
+</main>
+<footer>Ruddington Gardeners' Association · Member Posts demo · Sample data</footer>
+<div class="toast" id="toast"></div>
+<script>
+'use strict';
+const CATEGORIES=['Harvest','Question','Tip','Swap','Pests','Show & Tell'];
+/* ===== SUPABASE CONFIG (not used in demo – no real credentials) =====
+   const SUPABASE_CONFIG = {
+     url: 'https://YOUR-PROJECT.supabase.co',   // Project Settings > API
+     anonKey: 'YOUR-PUBLIC-ANON-KEY'            // public anon key only, NEVER service_role
+   };
+   Load <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script> then:
+   const db = SupabaseAdapter(supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey));
+=================================================================== */
+
+const now=Date.now(),day=864e5;
+const SAMPLE=[
+ {title:'First parsnips out of the clay!',category:'Harvest',author:'Sample: Jean (Plot 7)',body:'Took a fork to the parsnips after the first frost. Sown in April into holes filled with sieved compost – the trick on our heavy Ruddington clay. Lovely straight roots, about 10in (25cm) long.',daysAgo:2,likes:9,comments:[{author:'Sample: Ray',body:'Great tip about the compost holes – trying that next year.'}]},
+ {title:'Slugs on the brassicas – what works?',category:'Pests',author:'Sample: Tom (Plot 22)',body:'The wet autumn has the slugs feasting on my kale. Beer traps are full every morning. Anyone tried wool pellets or nematodes on clay?',daysAgo:4,likes:4,comments:[{author:'Sample: Jean',body:'Nematodes worked for me, but only once the soil was above 5°C.'}]},
+ {title:'Spare rhubarb crowns to swap',category:'Swap',author:'Sample: Pat (Plot 3)',body:'Splitting my Timperley Early crowns this month. Happy to swap for garlic or a few onion sets. Find me at the Village Hall meeting.',daysAgo:6,likes:6,comments:[]},
+ {title:'Breaking up clay with green manure',category:'Tip',author:'Sample: Committee',body:'Sow field beans or grazing rye now on empty beds. Dig in during early spring. The roots open up the clay and add organic matter. Don\'t walk on beds when they\'re wet – lay a plank down instead.',daysAgo:9,likes:14,comments:[]},
+ {title:'When to plant garlic on heavy soil?',category:'Question',author:'Sample: Anil (Plot 18)',body:'New member here. Is it too late for garlic in November, or should I start them in modules and plant out in spring?',daysAgo:1,likes:1,comments:[],status:'pending'},
+ {title:'Pumpkin show results',category:'Show & Tell',author:'Sample: Ray (Plot 11)',body:'Pleased to come second with a 48lb (21.8kg) Atlantic Giant at the autumn show. Next year it\'s first or bust!',daysAgo:12,likes:11,comments:[],photo:'rga-allotment.jpg'}
+].map((p,i)=>({id:'s'+i,status:p.status||'approved',sample:true,created:now-p.daysAgo*day,photo:p.photo||'',likedBy:[],...p,comments:p.comments.map(c=>({...c,created:now}))}));
+
+/* ===== DATA ADAPTER – every method is async so a Supabase version is a drop-in swap ===== */
+function LocalAdapter(){
+  const K='rga_posts_v1',U='rga_user_v1';
+  const load=()=>{try{const d=JSON.parse(localStorage.getItem(K));if(Array.isArray(d))return d}catch(e){}return SAMPLE.map(p=>JSON.parse(JSON.stringify(p)))};
+  const save=d=>{try{localStorage.setItem(K,JSON.stringify(d))}catch(e){throw new Error('Browser storage is full – try a smaller photo.')}};
+  const upd=(id,f)=>{const d=load();const p=d.find(x=>x.id===id);if(p){f(p);save(d)}return p};
+  return{
+    async signIn(name,email,admin){const u={name,email,admin:!!admin};localStorage.setItem(U,JSON.stringify(u));return u},
+    async signOut(){localStorage.removeItem(U)},
+    async currentUser(){try{return JSON.parse(localStorage.getItem(U))}catch(e){return null}},
+    async listPosts(){return load().sort((a,b)=>b.created-a.created)},
+    async createPost(p){const d=load();const np={id:'p'+Date.now(),status:'pending',created:Date.now(),likedBy:[],comments:[],likes:0,...p};d.push(np);save(d);return np},
+    async setStatus(id,status){return upd(id,p=>p.status=status)},
+    async deletePost(id){save(load().filter(p=>p.id!==id))},
+    async toggleLike(id,email){return upd(id,p=>{const i=p.likedBy.indexOf(email);if(i<0){p.likedBy.push(email);p.likes++}else{p.likedBy.splice(i,1);p.likes--}})},
+    async addComment(id,c){return upd(id,p=>p.comments.push({...c,created:Date.now()}))},
+    async reset(){localStorage.removeItem(K)}
+  };
+}
+/* Sketch of the Supabase adapter (untested; requires supabase-setup.sql):
+function SupabaseAdapter(sb){return{
+  async signIn(name,email){await sb.auth.signInWithOtp({email,options:{data:{display_name:name}}});},
+  async signOut(){await sb.auth.signOut()},
+  async currentUser(){const {data}=await sb.auth.getUser();if(!data.user)return null;
+    const {data:pr}=await sb.from('profiles').select('*').eq('id',data.user.id).single();
+    return {name:pr?.display_name,email:data.user.email,admin:pr?.is_admin,id:data.user.id}},
+  async listPosts(){const {data}=await sb.from('posts').select('*, profiles(display_name), comments(*)').order('created_at',{ascending:false});return data},
+  async createPost(p){ // upload photo blob to 'post-photos/<uid>/<file>' then insert row with photo_path
+  },
+  async setStatus(id,status){await sb.from('posts').update({status}).eq('id',id)},
+  async deletePost(id){await sb.from('posts').delete().eq('id',id)},
+  async addComment(id,c){await sb.from('comments').insert({post_id:id,body:c.body})},
+};} */
+const db=LocalAdapter();
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+let user=null,photoData='',tab='feed';
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+CATEGORIES.forEach(c=>{$('#pCat').add(new Option(c,c));$('#fCat').add(new Option(c,c))});
+
+function postHTML(p,mod){
+  const st=p.status!=='approved'?`<span class="pill ${p.status}">${p.status}</span>`:'';
+  const liked=user&&p.likedBy.includes(user.email);
+  let act=user?`<button class="btn ghost" data-act="like" data-id="${p.id}">${liked?'💚':'🤍'} ${p.likes}</button>`:`<span class="meta">💚 ${p.likes}</span>`;
+  if(mod){act=(p.status!=='approved'?`<button class="btn sec" data-act="approve" data-id="${p.id}">Approve</button>`:'')+
+    (p.status!=='hidden'?`<button class="btn ghost" data-act="hide" data-id="${p.id}">Hide</button>`:'')+
+    `<button class="btn danger" data-act="delete" data-id="${p.id}">Delete</button>`}
+  const reply=user?`<form class="row" data-comment="${p.id}" style="margin-top:.4rem"><input placeholder="Add a comment" required><button class="btn sec" style="flex:0 0 auto">Reply</button></form>`:'<p class="meta">Sign in above to like or comment.</p>';
+  const com=mod?'':`<div class="comments">${p.comments.map(c=>`<p><strong>${esc(c.author)}:</strong> ${esc(c.body)}</p>`).join('')||'<p><em>No comments yet.</em></p>'}
+    ${reply}</div>`;
+  return `<article class="box post ${p.status==='pending'?'pending':''} ${p.status==='hidden'?'hiddenp':''}">
+   <h4>${esc(p.title)}</h4><div class="meta">${esc(p.author)} · ${fmt(p.created)} · <span class="pill">${esc(p.category)}</span> ${p.sample?'<span class="pill sample">Sample</span>':''} ${st}</div>
+   ${p.photo?`<img src="${esc(p.photo)}" alt="Photo for ${esc(p.title)}" loading="lazy">`:''}
+   <p style="white-space:pre-wrap">${esc(p.body)}</p><div class="actions">${act}</div>${com}</article>`;
+}
+async function render(){
+  const all=await db.listPosts();
+  const q=$('#q').value.trim().toLowerCase(),c=$('#fCat').value;
+  const vis=all.filter(p=>(p.status==='approved'||(user&&p.authorEmail&&p.authorEmail===user.email&&p.status==='pending'))&&(!c||p.category===c)&&(!q||(p.title+' '+p.body+' '+p.author).toLowerCase().includes(q)));
+  $('#feed').innerHTML=vis.map(p=>postHTML(p,false)).join('')||'<div class="box">No posts match your search.</div>';
+  const pend=all.filter(p=>p.status==='pending').length;
+  $('#pendCount').textContent=pend?`(${pend})`:'';
+  const ord={pending:0,approved:1,hidden:2};
+  $('#modList').innerHTML=all.slice().sort((a,b)=>ord[a.status]-ord[b.status]).map(p=>postHTML(p,true)).join('')||'<div class="box">No posts.</div>';
+  document.querySelectorAll('.tab').forEach(s=>s.classList.toggle('hidden',s.id!=='tab-'+tab));
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+}
+async function showApp(){
+  user=await db.currentUser();
+  $('#authBox').classList.toggle('hidden',!!user);
+  $('#app').classList.remove('hidden');
+  document.querySelector('.userbar').classList.toggle('hidden',!user);
+  document.querySelector('[data-tab="new"]').classList.toggle('hidden',!user);
+  $('#modTab').classList.toggle('hidden',!(user&&user.admin));
+  if(!user&&(tab==='new'||tab==='mod'))tab='feed';
+  if(user){
+    $('#whoName').textContent=user.name;$('#whoRole').textContent=user.admin?'Admin (demo)':'Member';
+    if(!user.admin&&tab==='mod')tab='feed';
+  }
+  render();
+}
+$('#signIn').onclick=async()=>{const n=$('#aName').value.trim(),e=$('#aEmail').value.trim();
+  if(!n||!/^\S+@\S+\.\S+$/.test(e)){toast('Please enter a name and a valid email');return}
+  await db.signIn(n,e,$('#asAdmin').checked);toast('Welcome, '+n);showApp()};
+$('#signOut').onclick=async()=>{await db.signOut();showApp()};
+$('#resetDemo').onclick=async()=>{if(confirm('Reset all posts to the sample data?')){await db.reset();render();toast('Demo data reset')}};
+document.querySelector('.tabs').onclick=e=>{const b=e.target.closest('button');if(b){tab=b.dataset.tab;render()}};
+$('#q').oninput=render;$('#fCat').onchange=render;
+
+function resizeImage(file,max=1000){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const img=new Image();img.onerror=()=>rej(new Error('Not an image'));img.onload=()=>{
+  const s=Math.min(1,max/Math.max(img.width,img.height));const cv=document.createElement('canvas');cv.width=Math.round(img.width*s);cv.height=Math.round(img.height*s);
+  cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);res(cv.toDataURL('image/jpeg',.8))};img.src=r.result};r.readAsDataURL(file)})}
+$('#pPhoto').onchange=async e=>{const f=e.target.files[0];photoData='';$('#preview').style.display='none';if(!f)return;
+  try{photoData=await resizeImage(f);$('#preview').src=photoData;$('#preview').style.display='block'}catch(err){toast('Could not read that image')}};
+$('#postForm').onsubmit=async e=>{e.preventDefault();
+  try{await db.createPost({title:$('#pTitle').value.trim(),category:$('#pCat').value,body:$('#pBody').value.trim(),photo:photoData,author:user.name,authorEmail:user.email,
+    status:user.admin?'approved':'pending'});}catch(err){toast(err.message);return}
+  e.target.reset();photoData='';$('#preview').style.display='none';tab='feed';render();
+  toast(user.admin?'Post published':'Thanks! Your post is waiting for committee approval')};
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]');if(!b)return;const id=b.dataset.id,a=b.dataset.act;
+  if(a==='like'){if(!user){toast('Sign in to like a post');return}await db.toggleLike(id,user.email)}
+  if(a==='approve'){await db.setStatus(id,'approved');toast('Approved')}
+  if(a==='hide'){await db.setStatus(id,'hidden');toast('Hidden from feed')}
+  if(a==='delete'){if(!confirm('Delete this post permanently?'))return;await db.deletePost(id);toast('Deleted')}
+  render()});
+document.addEventListener('submit',async e=>{const f=e.target.closest('[data-comment]');if(!f)return;e.preventDefault();
+  const v=f.querySelector('input').value.trim();if(!v)return;if(!user){toast('Sign in to comment');return}await db.addComment(f.dataset.comment,{author:user.name,body:v});render()});
+showApp();
+</script></body></html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join | Ruddington Gardeners’ Association</title>
+<meta name="description" content="Join the Ruddington Gardeners’ Association – membership details and contact information.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <h1><a href="index.html">Ruddington Gardeners’ Association</a></h1>
+    <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="join.html" class="active" aria-current="page">Join</a>
+    <a href="meetings.html">Meetings</a>
+    <a href="monthly.html">Monthly</a>
+    <a href="tips.html">Tips</a>
+    <a href="knowledge-hub.html">Knowledge Hub</a>
+    <a href="local-links.html">Local Links</a>
+    <a href="members.html">Members</a>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="produce-host content-box">
+<img class="produce-deco produce-deco--tr" src="img/produce/strawberries.webp" width="172" height="194" alt="" aria-hidden="true" decoding="async">
+    <h2>Join the RGA</h2>
+    <p>Membership is open to everyone and costs just <strong>£5 per year</strong>.</p>
+
+    <hr class="leaf">
+
+    <h3>What’s included</h3>
+    <ul class="leaf-list">
+      <li>Access to monthly meetings and talks</li>
+      <li>Access to members group seed purchase and produce, plants &amp; seeds (members area)</li>
+      <li>Garden visits and social events</li>
+      <li>Local growing advice and community</li>
+      <li>Support for village gardening projects</li>
+    </ul>
+
+    <hr class="leaf">
+
+    <h3>How to join</h3>
+    <ul class="leaf-list">
+      <li>Come along to a meeting, or get in touch by email</li>
+      <li>Membership is £5 per year</li>
+      <li>There’s also a small door fee at meetings (usually a couple of pounds)</li>
+    </ul>
+
+    <hr class="leaf">
+
+    <h3>Join us – enquiry form</h3>
+    <p>Fill this in and tap the button. <strong>This opens your email app</strong> with a message ready for the Association — nothing is stored on this website.</p>
+    <form class="join-form" id="joinForm" novalidate>
+      <label for="j-name">Your name</label>
+      <input id="j-name" name="name" type="text" autocomplete="name" required placeholder="Full name">
+
+      <label for="j-email">Email</label>
+      <input id="j-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+
+      <label for="j-phone">Phone <span style="font-weight:500;color:#444">(optional)</span></label>
+      <input id="j-phone" name="phone" type="tel" autocomplete="tel" placeholder="Mobile or landline">
+
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend style="font-weight:700;margin:0.9rem 0 0.35rem">Interests</legend>
+        <div class="checks">
+          <label><input type="checkbox" name="interest" value="Meetings and talks"> Meetings and talks</label>
+          <label><input type="checkbox" name="interest" value="Group seed purchase"> Group seed purchase</label>
+          <label><input type="checkbox" name="interest" value="Produce, plants and seeds sharing"> Produce, plants &amp; seeds</label>
+          <label><input type="checkbox" name="interest" value="Garden visits"> Garden visits</label>
+          <label><input type="checkbox" name="interest" value="Allotment advice"> Allotment advice</label>
+          <label><input type="checkbox" name="interest" value="Volunteering"> Volunteering</label>
+        </div>
+      </fieldset>
+
+      <label for="j-msg">Message</label>
+      <textarea id="j-msg" name="message" required placeholder="Tell us a little about yourself, or any questions."></textarea>
+
+      <p class="hint">This opens your email app to <strong>enquiries@ruddingtongardeners.co.uk</strong> with your details filled in. No account or payment is needed here.</p>
+      <div class="form-actions">
+        <button type="submit" class="btn">Open email to join enquiry</button>
+        <a class="btn ghost" href="mailto:enquiries@ruddingtongardeners.co.uk">Or email us directly</a>
+      </div>
+      <p id="joinErr" class="hint" role="alert" style="color:#7a1f1f;font-weight:700"></p>
+    </form>
+
+    <hr class="leaf">
+
+    <h3>Contact</h3>
+    <ul class="leaf-list">
+      <li><strong>Email:</strong> <a href="mailto:enquiries@ruddingtongardeners.co.uk">enquiries@ruddingtongardeners.co.uk</a></li>
+      <li><strong>Meetings:</strong> last Wednesday of most months, 7.30pm, The Hermitage, Wilford Lane, Ruddington</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <p>Ruddington Gardeners’ Association · Est. 1934 · Ruddington, Nottingham</p>
+</footer>
+<script>
+(function(){
+  var form=document.getElementById('joinForm');
+  var err=document.getElementById('joinErr');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    err.textContent='';
+    var name=(document.getElementById('j-name').value||'').trim();
+    var email=(document.getElementById('j-email').value||'').trim();
+    var phone=(document.getElementById('j-phone').value||'').trim();
+    var msg=(document.getElementById('j-msg').value||'').trim();
+    var interests=[].slice.call(document.querySelectorAll('input[name="interest"]:checked')).map(function(c){return c.value});
+    if(!name){err.textContent='Please enter your name.';document.getElementById('j-name').focus();return;}
+    if(!email){err.textContent='Please enter your email.';document.getElementById('j-email').focus();return;}
+    if(!msg){err.textContent='Please add a short message.';document.getElementById('j-msg').focus();return;}
+    var body=[
+      'Hello RGA,',
+      '',
+      'I would like to join / enquire about membership.',
+      '',
+      'Name: '+name,
+      'Email: '+email,
+      'Phone: '+(phone||'(not given)'),
+      'Interests: '+(interests.length?interests.join('; '):'(none selected)'),
+      '',
+      'Message:',
+      msg,
+      '',
+      '(Sent via the Join form on the RGA website demo)'
+    ].join('\n');
+    var mailto='mailto:enquiries@ruddingtongardeners.co.uk'
+      +'?subject='+encodeURIComponent('RGA membership enquiry from '+name)
+      +'&body='+encodeURIComponent(body);
+    window.location.href=mailto;
+  });
+})();
+</script>
+</body>
+</html>

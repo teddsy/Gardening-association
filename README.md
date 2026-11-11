@@ -18,3 +18,4 @@ The files in the root of this repository are the live demo. Start from the `temp
 ## Licence
 
 This project is free to use, copy and adapt under the [MIT licence](LICENSE). Copyright (c) 2026 David Tedds. Keep the copyright notice if you share your copy.
+_Last published: 11 November 2026._

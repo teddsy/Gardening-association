@@ -10,6 +10,7 @@ Members area: members.html links to —
   seed-quicklist.html (Quick order list – one compact row per product, shared basket),
   members-apparel.html (Members Apparel Order – tees, hoodies, caps, totes; demo basket/print only),
   members-produce-plants-seeds.html (Produce, Plants & Seeds sharing board),
+  growing-guide.html (Growing Guide: Crop Guide, Monthly Jobs, Local Growing Tips, Growing Assistant),
   plus member-posts.html.
 members-produce-seeds.html redirects to members.html (old combined page retired).
 plantsales.html redirects to members-produce-plants-seeds.html.
@@ -18,7 +19,7 @@ members-apparel.html stores the apparel basket in localStorage key rgaApparelBas
 Demo product photos live in apparel/ (generated for this prototype).
 Both store data only in the visitor's browser (localStorage). Supabase is OPTIONAL: to make Member Posts live,
 run supabase-setup.sql in a Supabase project and plug its URL/anon key into the adapter in member-posts.html.
-knowledge-hub.html is a searchable version of RGA-Knowledge-Base.txt.
+knowledge-hub.html redirects to growing-guide.html. Clay, no-dig, frost, pest and allotment notes are on tips.html. Month-by-month jobs are on monthly.html. Crop notes are in knowledge/index.html. RGA-Knowledge-Base.txt is the older plain-text source.
 
 Members' Board (Padlet)
 - Embedded on members.html (separate from Member Posts).
@@ -45,7 +46,7 @@ Local Links (local-links.html)
 
 Members area (open for demonstration)
 - The demo sign-in overlay is switched off, so members pages open freely.
-- A bold red notice on members, seed shop, apparel, produce and Member Posts pages explains
+- A bold red notice on members, seed shop, apparel, produce, Member Posts, Growing Guide, Monthly Jobs, Local Growing Tips and Crop Guide pages explains
   that this area will normally be password protected and is open here for demonstration only.
 - members-gate.js still exposes a window.RGA_MEMBERS session API (localStorage key rgaMembersSession)
   for optional name use on printed summaries; it does not lock the page.

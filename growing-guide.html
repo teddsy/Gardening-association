@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growing Guide | Ruddington Gardeners’ Association</title>
+<meta name="description" content="Members’ Growing Guide – Crop Guide, Monthly Jobs, local growing tips for Ruddington clay, and the RGA Growing Assistant.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <h1><a href="index.html">Ruddington Gardeners’ Association</a></h1>
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="join.html">Join</a>
+    <a href="meetings.html">Meetings</a>
+    <a href="local-links.html">Local Links</a>
+    <a href="members.html" class="active" aria-current="page">Members</a>
+  </nav>
+</header>
+
+<main id="main" class="members-hub">
+  <p class="members-demo-notice" role="note"><strong>Members Area: this area will normally be password protected for obvious reasons. It is open here for demonstration only.</strong></p>
+  <section class="produce-host content-box hub-welcome" aria-labelledby="guide-title">
+    <img class="produce-deco produce-deco--tr" src="img/produce/pea.webp" width="178" height="215" alt="" aria-hidden="true" decoding="async">
+    <p class="crumbs"><a href="members.html">Members</a> › <span aria-current="page">Growing Guide</span></p>
+    <p class="kicker">On the plot</p>
+    <h2 id="guide-title">Growing Guide</h2>
+    <p class="hub-lead">Crop notes, month-by-month jobs, local tips for Ruddington clay, and a chat for growing questions — in one place for members.</p>
+  </section>
+
+  <section class="content-box" aria-label="Guides">
+    <div class="cards">
+      <article class="link-card">
+        <h3>Crop Guide</h3>
+        <p>Sowing, spacing, harvest and varieties for fruit, vegetables and herbs. Varieties in this season’s Kings Seeds group order are marked on the page.</p>
+        <p><a class="btn" href="knowledge/index.html">Open the Crop Guide</a></p>
+      </article>
+      <article class="link-card">
+        <h3>Monthly Jobs</h3>
+        <p>What to do each month on Ruddington clay and no-dig beds. This is the jobs list, not the meetings calendar.</p>
+        <p><a class="btn" href="monthly.html">Open Monthly Jobs</a></p>
+      </article>
+      <article class="link-card">
+        <h3>Local Growing Tips</h3>
+        <p>Clay soil, no-dig, frost dates, pests and the Hareham, Paradise and Roots allotments.</p>
+        <p><a class="btn" href="tips.html">Open Local Growing Tips</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="content-box" aria-labelledby="hub-chat">
+    <div class="section-head">
+      <p class="kicker">Ask locally</p>
+      <h3 id="hub-chat">Ask the Growing Assistant</h3>
+      <p>Clay soil, no-dig, monthly jobs, seed purchase, meetings and membership.</p>
+    </div>
+    <div class="hub-chat">
+      <p>Open the chat with the button below (a chat bubble may also appear in the bottom corner once it has loaded).</p>
+      <p><button type="button" class="btn" id="rga-open-chat">Open growing chat</button></p>
+      <p class="hub-chat-note" id="rga-chat-status" role="status" hidden></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Ruddington Gardeners’ Association · Est. 1934 · Ruddington, Nottingham</p>
+</footer>
+<script src="members-gate.js"></script>
+<!-- Botpress webchat (RGA Growing Assistant) – supplied embed, original order + defer -->
+<script>window.RGA_BP_FAILED=false;</script>
+<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js" onerror="window.RGA_BP_FAILED=true"></script>
+<script src="https://files.bpcontent.cloud/2026/11/03/20/20261103205038-DF6UA4RX.js" defer onerror="window.RGA_BP_FAILED=true"></script>
+<script>
+(function () {
+  var btn = document.getElementById('rga-open-chat');
+  var status = document.getElementById('rga-chat-status');
+  if (!btn) return;
+  function setStatus(msg) { status.hidden = !msg; status.textContent = msg || ''; }
+  function ready() { return window.botpress && typeof window.botpress.open === 'function'; }
+  var FAIL = 'The growing chat could not load on this connection (the Botpress chat service did not respond). Please try again later, or ask at a meeting.';
+  btn.addEventListener('click', function () {
+    if (window.RGA_BP_FAILED) { setStatus(FAIL); return; }
+    if (ready()) {
+      setStatus('');
+      try { window.botpress.open(); } catch (e) { setStatus('The chat could not open. Please refresh the page and try again.'); }
+      return;
+    }
+    setStatus('The chat is still loading – please wait a few seconds and try again.');
+  });
+  setTimeout(function () { if (window.RGA_BP_FAILED || !ready()) { if (window.RGA_BP_FAILED) setStatus(FAIL); } }, 6000);
+})();
+</script>
+</body>
+</html>

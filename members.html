@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Members Area | Ruddington Gardeners’ Association</title>
-<meta name="description" content="Members area for the Ruddington Gardeners’ Association – group seed purchase, apparel, produce, plants and seeds, Members’ Board and growing help.">
+<meta name="description" content="Members area for the Ruddington Gardeners’ Association – group seed purchase, apparel, produce, plants and seeds, Members’ Board and the Growing Guide.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,9 +16,6 @@
     <a href="about.html">About</a>
     <a href="join.html">Join</a>
     <a href="meetings.html">Meetings</a>
-    <a href="monthly.html">Monthly</a>
-    <a href="tips.html">Tips</a>
-    <a href="knowledge-hub.html">Knowledge Hub</a>
     <a href="local-links.html">Local Links</a>
     <a href="members.html" class="active" aria-current="page">Members</a>
   </nav>
@@ -62,19 +59,6 @@
     </div>
   </section>
 
-  <section class="content-box" aria-labelledby="hub-chat">
-    <div class="section-head">
-      <p class="kicker">Ask locally</p>
-      <h3 id="hub-chat">RGA Growing Assistant</h3>
-      <p>Clay soil, no-dig, monthly jobs, seed purchase, meetings and membership.</p>
-    </div>
-    <div class="hub-chat">
-      <p>Open the chat with the button below (a chat bubble may also appear in the bottom corner once it has loaded).</p>
-      <p><button type="button" class="btn" id="rga-open-chat">Open growing chat</button></p>
-      <p class="hub-chat-note" id="rga-chat-status" role="status" hidden></p>
-    </div>
-  </section>
-
   <section class="content-box" aria-labelledby="hub-community">
     <div class="section-head">
       <p class="kicker">Stay in touch</p>
@@ -105,32 +89,14 @@
     </details>
   </section>
 
-  <section class="content-box" aria-labelledby="hub-growing">
+  <section class="produce-host content-box" aria-labelledby="hub-growing">
+    <img class="produce-deco produce-deco--bl produce-deco--faint" src="img/produce/kale.webp" width="160" height="260" alt="" aria-hidden="true" decoding="async">
     <div class="section-head">
       <p class="kicker">On the plot</p>
-      <h3 id="hub-growing">Growing help</h3>
-      <p>Month-by-month jobs and practical tips for Ruddington clay and local allotments.</p>
+      <h3 id="hub-growing">Growing Guide</h3>
+      <p>Crop notes, Monthly Jobs, local tips for Ruddington clay and allotments, and the Growing Assistant — together in one guide.</p>
     </div>
-    <div class="flip-grid">
-      <article class="flip">
-        <div class="flip-inner">
-          <div class="flip-face flip-front" style="background-image:url('rga-raised.jpg')"><h4>Monthly Jobs</h4><p>What to do this month</p></div>
-          <div class="flip-face flip-back"><h4>Monthly Jobs Checklist</h4><p>Month-by-month tasks for Ruddington clay soils and no-dig beds.</p><a class="btn" href="monthly.html">Open monthly jobs</a></div>
-        </div>
-      </article>
-      <article class="flip">
-        <div class="flip-inner">
-          <div class="flip-face flip-front" style="background-image:url('rga-hero.jpg')"><h4>Growing Tips</h4><p>Clay, no-dig, frost dates</p></div>
-          <div class="flip-face flip-back"><h4>Growing Tips</h4><p>Local guides covering clay soil, no-dig, crops, frost dates and more.</p><a class="btn" href="tips.html">Open growing tips</a></div>
-        </div>
-      </article>
-      <article class="flip">
-        <div class="flip-inner">
-          <div class="flip-face flip-front" style="background-image:url('rga-allotment.jpg')"><h4>Allotment Tips</h4><p>Hareham &amp; Paradise Gardens</p></div>
-          <div class="flip-face flip-back"><h4>Allotment Tips</h4><p>Notes for Hareham Gardens, Paradise Gardens and other local plots.</p><a class="btn" href="tips.html#allotments">Open allotment tips</a></div>
-        </div>
-      </article>
-    </div>
+    <p><a class="btn" href="growing-guide.html">Open the Growing Guide</a></p>
   </section>
 
   <section class="content-box" aria-labelledby="hub-soon">
@@ -150,29 +116,5 @@
 <script src="members-gate.js"></script>
 <script src="flip.js"></script>
 <script src="weather-window.js"></script>
-<!-- Botpress webchat (RGA Growing Assistant) – supplied embed, original order + defer -->
-<script>window.RGA_BP_FAILED=false;</script>
-<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js" onerror="window.RGA_BP_FAILED=true"></script>
-<script src="https://files.bpcontent.cloud/2026/11/03/20/20261103205038-DF6UA4RX.js" defer onerror="window.RGA_BP_FAILED=true"></script>
-<script>
-(function () {
-  var btn = document.getElementById('rga-open-chat');
-  var status = document.getElementById('rga-chat-status');
-  if (!btn) return;
-  function setStatus(msg) { status.hidden = !msg; status.textContent = msg || ''; }
-  function ready() { return window.botpress && typeof window.botpress.open === 'function'; }
-  var FAIL = 'The growing chat could not load on this connection (the Botpress chat service did not respond). Please try again later, or ask at a meeting.';
-  btn.addEventListener('click', function () {
-    if (window.RGA_BP_FAILED) { setStatus(FAIL); return; }
-    if (ready()) {
-      setStatus('');
-      try { window.botpress.open(); } catch (e) { setStatus('The chat could not open. Please refresh the page and try again.'); }
-      return;
-    }
-    setStatus('The chat is still loading – please wait a few seconds and try again.');
-  });
-  setTimeout(function () { if (window.RGA_BP_FAILED || !ready()) { if (window.RGA_BP_FAILED) setStatus(FAIL); } }, 6000);
-})();
-</script>
 </body>
 </html>
